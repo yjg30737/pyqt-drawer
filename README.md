@@ -8,8 +8,8 @@ PyQt5 >= 5.8
 ```pip3 install git+https://github.com/yjg30737/pyqt-drawer.git --upgrade```
 
 ## Feature
-* Being able to set duration (```setDuration(msc)```)
-* Being able to set end value (```setEndValue(size)```)
+* Being able to set duration with ```drawer.setDuration(msc)```
+* Being able to set end value with ```drawer.setEndValue(size)```
 
 ## Example
 Code Example
