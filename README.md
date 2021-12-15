@@ -1,11 +1,15 @@
 # pyqt-drawer
-PyQt Drawer
+PyQt Drawer (horizontal direction)
 
 ## Requirements
 PyQt5 >= 5.8
 
 ## Setup
 ```pip3 install git+https://github.com/yjg30737/pyqt-drawer.git --upgrade```
+
+## Feature
+* Being able to set duration (```setDuration(msc)```)
+* Being able to set end value (```setEndValue(size)```)
 
 ## Example
 Code Example
@@ -23,9 +27,9 @@ class MainWindow(QMainWindow):
         listWidget = QListWidget()
         listWidget.addItems(
             ['Age of Empires II: Definitive Edition', 'American Truck Simulator', 'Arma 3', "Assassin's Creed"])
-        drawer = Drawer(listWidget)
-        drawer.setDuration(200)
-        drawer.setEndValue(listWidget.sizeHint().width())
+        drawer = Drawer(listWidget) # Widget to show/hide
+        drawer.setDuration(200) # set duration (200 mseconds)
+        drawer.setEndValue(listWidget.sizeHint().width()) # set end value with listwidget's appropriate maximum width
         self.setCentralWidget(drawer)
 
 
