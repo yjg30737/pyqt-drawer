@@ -27,7 +27,7 @@ class MainWindow(QMainWindow):
         listWidget = QListWidget()
         listWidget.addItems(
             ['Age of Empires II: Definitive Edition', 'American Truck Simulator', 'Arma 3', "Assassin's Creed"])
-        drawer = Drawer(listWidget) # Widget to show/hide
+        drawer = Drawer(listWidget) # widget to show/hide
         drawer.setDuration(200) # set duration (200 mseconds)
         drawer.setEndValue(listWidget.sizeHint().width()) # set end value with listwidget's appropriate maximum width
         self.setCentralWidget(drawer)
