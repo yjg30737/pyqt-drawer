@@ -1,5 +1,5 @@
 # pyqt-drawer
-PyQt Drawer (horizontal direction)
+PyQt Drawer
 
 ## Requirements
 PyQt5 >= 5.8
@@ -8,6 +8,7 @@ PyQt5 >= 5.8
 ```pip3 install git+https://github.com/yjg30737/pyqt-drawer.git --upgrade```
 
 ## Feature
+* ```Drawer(widget: QWidget, orientation)``` Constructor. Default orientation is set to Qt.Horizontal. Giving Qt.Vertical is enabled, but not recommended. (There is a bug related to vertical animation starting point, i will fix it)
 * Being able to set duration with ```drawer.setDuration(msc)```
 * Being able to set end value with ```drawer.setEndValue(size)```
 
