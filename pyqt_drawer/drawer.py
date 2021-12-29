@@ -4,11 +4,11 @@ from pyqt_resource_helper import PyQtResourceHelper
 
 
 class Drawer(QWidget):
-    def __init__(self, widget):
+    def __init__(self, widget, orientation=Qt.Horizontal):
         super().__init__()
-        self.__initUi(widget)
+        self.__initUi(widget=widget, orientation=orientation)
 
-    def __initUi(self, widget):
+    def __initUi(self, widget, orientation):
         self.__btn = QPushButton()
         self.__btn.setFixedSize(self.__btn.sizeHint().width(), self.__btn.sizeHint().height())
         self.__btn.setCheckable(True)
@@ -18,13 +18,19 @@ class Drawer(QWidget):
         PyQtResourceHelper.setIcon([self.__btn], ['ico/drawer.png'])
 
         self.__widget = widget
-        self.__widget.setFixedWidth(0)
+        self.__animation = ''
+        if orientation == Qt.Horizontal:
+            self.__widget.setFixedWidth(0)
+            self.__animation = QPropertyAnimation(self, b"width")
+            self.__animation.valueChanged.connect(self.__widget.setFixedWidth)
+        else:
+            self.__widget.setFixedHeight(0)
+            self.__animation = QPropertyAnimation(self, b"height")
+            self.__animation.valueChanged.connect(self.__widget.setFixedHeight)
 
-        self.__animation = QPropertyAnimation(self, b"width")
         self.__animation.setStartValue(0)
-        self.__animation.setDuration(200)
-        self.__animation.setEndValue(200)
-        self.__animation.valueChanged.connect(self.__widget.setFixedWidth)
+        self.__animation.setDuration(200) # default duration
+        self.__animation.setEndValue(200) # default end value
 
         lay = QGridLayout()
         lay.addWidget(self.__widget, 1, 0, 1, 2)
