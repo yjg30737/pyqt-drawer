@@ -1,6 +1,6 @@
-from PyQt5.QtWidgets import QPushButton, QWidget, QGridLayout
+from PyQt5.QtWidgets import QWidget, QGridLayout
 from PyQt5.QtCore import Qt, QPropertyAnimation, QAbstractAnimation
-from pyqt_resource_helper import PyQtResourceHelper
+from pyqt_svg_icon_pushbutton import SvgIconPushButton
 
 
 class Drawer(QWidget):
@@ -9,13 +9,11 @@ class Drawer(QWidget):
         self.__initUi(widget=widget, orientation=orientation)
 
     def __initUi(self, widget, orientation):
-        self.__btn = QPushButton()
+        self.__btn = SvgIconPushButton()
         self.__btn.setFixedSize(self.__btn.sizeHint().width(), self.__btn.sizeHint().height())
         self.__btn.setCheckable(True)
         self.__btn.toggled.connect(self.__drawerToggled)
-
-        PyQtResourceHelper.setStyleSheet([self.__btn], ['style/button.css'])
-        PyQtResourceHelper.setIcon([self.__btn], ['ico/drawer.png'])
+        self.__bth.setIcon('ico/drawer.svg')
 
         self.__widget = widget
         self.__animation = ''
