@@ -50,3 +50,6 @@ class Drawer(QWidget):
     def setEndValue(self, value):
         self.__animation.setEndValue(value)
 
+    def setIcon(self, icon):
+        self.__btn.setIcon(icon)
+
