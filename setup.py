@@ -7,7 +7,7 @@ setup(
     author_email='yjg30737@gmail.com',
     license='MIT',
     packages=find_packages(),
-    package_data={'pyqt_drawer.style': ['button.css'], 'pyqt_drawer.ico': ['drawer.svg']},
+    package_data={'pyqt_drawer.ico': ['drawer.svg']},
     description='PyQt drawer',
     url='https://github.com/yjg30737/pyqt-drawer.git',
     install_requires=[
