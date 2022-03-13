@@ -13,7 +13,7 @@ class Drawer(QWidget):
         self.__btn.setFixedSize(self.__btn.sizeHint().width(), self.__btn.sizeHint().height())
         self.__btn.setCheckable(True)
         self.__btn.toggled.connect(self.__drawerToggled)
-        self.__bth.setIcon('ico/drawer.svg')
+        self.__btn.setIcon('ico/drawer.svg')
 
         self.__widget = widget
         self.__animation = ''
