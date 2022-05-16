@@ -1,5 +1,5 @@
-from PyQt5.QtWidgets import QWidget, QGridLayout, QGraphicsOpacityEffect, QSizePolicy
-from PyQt5.QtCore import Qt, QPropertyAnimation, QAbstractAnimation, QPoint
+from PyQt5.QtWidgets import QWidget, QGridLayout, QGraphicsOpacityEffect
+from PyQt5.QtCore import Qt, QPropertyAnimation, QAbstractAnimation
 from pyqt_svg_icon_pushbutton import SvgIconPushButton
 
 
@@ -39,14 +39,21 @@ class Drawer(QWidget):
         self.__sizeAnimation.setEndValue(200)  # default end value
 
         # init opacity animation
-        self.__opacityAnimation = ''
-        self.__widget.setGraphicsEffect(QGraphicsOpacityEffect(opacity=0.0))
         self.__opacityAnimation = QPropertyAnimation(self, b"opacity")
+        self.__widget.setGraphicsEffect(QGraphicsOpacityEffect(opacity=0.0))
         self.__opacityAnimation.valueChanged.connect(self.__setOpacity)
 
         self.__opacityAnimation.setStartValue(0.0)
         self.__opacityAnimation.setDuration(200)
         self.__opacityAnimation.setEndValue(1.0)
+
+        # todo init parent opacity animation
+        # self.__parentOpacityAnimation = QPropertyAnimation(self, b"parentopacity")
+        # self.__parentOpacityAnimation.valueChanged.connect(self.__setParentOpacity)
+
+        # self.__parentOpacityAnimation.setStartValue(1.0)
+        # self.__parentOpacityAnimation.setDuration(200)
+        # self.__parentOpacityAnimation.setEndValue(0.8)
 
         lay = QGridLayout()
         lay.addWidget(self.__btn, 0, 0, 1, 1, Qt.AlignTop | Qt.AlignLeft)
@@ -60,21 +67,29 @@ class Drawer(QWidget):
         if f:
             self.__sizeAnimation.setDirection(QAbstractAnimation.Forward)
             self.__opacityAnimation.setDirection(QAbstractAnimation.Forward)
+            # self.__parentOpacityAnimation.setDirection(QAbstractAnimation.Forward)
             self.__btn.hide()
         else:
             self.__sizeAnimation.setDirection(QAbstractAnimation.Backward)
             self.__opacityAnimation.setDirection(QAbstractAnimation.Backward)
+            # self.__parentOpacityAnimation.setDirection(QAbstractAnimation.Backward)
             self.__btn.show()
-        self.__opacityAnimation.start()
         self.__sizeAnimation.start()
+        self.__opacityAnimation.start()
+        # self.__parentOpacityAnimation.start()
 
     def __setOpacity(self, opacity):
         opacity_effect = QGraphicsOpacityEffect(opacity=opacity)
         self.__widget.setGraphicsEffect(opacity_effect)
 
+    # def __setParentOpacity(self, opacity):
+    #     opacity_effect = QGraphicsOpacityEffect(opacity=opacity)
+    #     self.__parent.setGraphicsEffect(opacity_effect)
+
     def setDuration(self, msecs):
         self.__sizeAnimation.setDuration(msecs)
         self.__opacityAnimation.setDuration(msecs)
+        # self.__parentOpacityAnimation.setDuration(msecs)
 
     def setEndValue(self, value):
         self.__sizeAnimation.setEndValue(value)
