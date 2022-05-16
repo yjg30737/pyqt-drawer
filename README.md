@@ -47,7 +47,6 @@ class MainWindow(QMainWindow):
         lay.addWidget(SettingsDialog(), 0, 0, 1, 1)
         lay.addWidget(drawer, 0, 0, 1, 1)
         lay.setContentsMargins(0, 0, 0, 0)
-        drawer.raise_()
         mainWidget = QWidget()
         mainWidget.setLayout(lay)
         self.setCentralWidget(mainWidget)
