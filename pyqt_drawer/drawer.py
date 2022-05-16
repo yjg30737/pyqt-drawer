@@ -1,5 +1,5 @@
-from PyQt5.QtWidgets import QWidget, QGridLayout, QGraphicsOpacityEffect
-from PyQt5.QtCore import Qt, QPropertyAnimation, QAbstractAnimation
+from PyQt5.QtWidgets import QWidget, QGridLayout, QGraphicsOpacityEffect, QSizePolicy
+from PyQt5.QtCore import Qt, QPropertyAnimation, QAbstractAnimation, QPoint
 from pyqt_svg_icon_pushbutton import SvgIconPushButton
 
 
@@ -20,14 +20,18 @@ class Drawer(QWidget):
 
         self.__widget = widget
 
+        align = ''
+
         # init size animation
         self.__sizeAnimation = ''
         if orientation == Qt.Horizontal:
             self.__widget.setFixedWidth(0)
+            align = Qt.AlignLeft
             self.__sizeAnimation = QPropertyAnimation(self, b"width")
             self.__sizeAnimation.valueChanged.connect(self.__widget.setFixedWidth)
         else:
             self.__widget.setFixedHeight(0)
+            align = Qt.AlignTop
             self.__sizeAnimation = QPropertyAnimation(self, b"height")
             self.__sizeAnimation.valueChanged.connect(self.__widget.setFixedHeight)
         self.__sizeAnimation.setStartValue(0)
@@ -46,8 +50,9 @@ class Drawer(QWidget):
 
         lay = QGridLayout()
         lay.addWidget(self.__btn, 0, 0, 1, 1, Qt.AlignTop | Qt.AlignLeft)
-        lay.addWidget(self.__widget, 0, 0, 1, 2)
+        lay.addWidget(self.__widget, 0, 0, 1, 2, align)
         lay.setSpacing(0)
+        lay.setContentsMargins(0, 0, 0, 0)
 
         self.setLayout(lay)
 
