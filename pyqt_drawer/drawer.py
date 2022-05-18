@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QWidget, QGridLayout, QGraphicsOpacityEffect
 from PyQt5.QtCore import Qt, QPropertyAnimation, QAbstractAnimation, QParallelAnimationGroup
-from pyqt_svg_icon_pushbutton import SvgIconPushButton
+from pvqt_svg_button import SvgButton
 
 
 class Drawer(QWidget):
@@ -12,7 +12,7 @@ class Drawer(QWidget):
         self.__parent = parent
         self.__parent.installEventFilter(self)
 
-        self.__btn = SvgIconPushButton()
+        self.__btn = SvgButton()
         self.__btn.setCheckable(True)
         self.__btn.toggled.connect(self.__drawerToggled)
         self.__btn.setIcon('ico/drawer.svg')
@@ -50,6 +50,7 @@ class Drawer(QWidget):
         self.__animationGroup = QParallelAnimationGroup()
         self.__animationGroup.addAnimation(self.__sizeAnimation)
         self.__animationGroup.addAnimation(self.__opacityAnimation)
+        self.__animationGroup.stateChanged.connect(self.__animationStateChanged)
 
         # todo init parent opacity animation
         # self.__parentOpacityAnimation = QPropertyAnimation(self, b"parentopacity")
@@ -104,3 +105,11 @@ class Drawer(QWidget):
                 if self.__sizeAnimation.currentValue() == self.__sizeAnimation.endValue():
                     self.__btn.toggle()
         return super().eventFilter(obj, e)
+
+    def __animationStateChanged(self, new_state, old_state):
+        if new_state == 2:
+            self.__widget.setAttribute(Qt.WA_TransparentForMouseEvents, True)
+        elif new_state == 0:
+            self.__widget.setAttribute(Qt.WA_TransparentForMouseEvents, False)
+
+
