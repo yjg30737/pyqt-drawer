@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QWidget, QGridLayout, QGraphicsOpacityEffect
 from PyQt5.QtCore import Qt, QPropertyAnimation, QAbstractAnimation
-from pyqt_svg_icon_pushbutton import SvgIconPushButton
+from pyqt_svg_button import SvgButton
 
 
 class Drawer(QWidget):
@@ -12,7 +12,7 @@ class Drawer(QWidget):
         self.__parent = parent
         self.__parent.installEventFilter(self)
 
-        self.__btn = SvgIconPushButton()
+        self.__btn = SvgButton()
         self.__btn.setCheckable(True)
         self.__btn.toggled.connect(self.__drawerToggled)
         self.__btn.setIcon('ico/drawer.svg')
