@@ -12,7 +12,7 @@ PyQt5 >= 5.8
 `python -m pip install pyqt-drawer`
 
 ## Included Packages
-* <a href="https://github.com/yjg30737/pyqt-svg-icon-pushbutton.git">pyqt-svg-icon-pushbutton</a>
+* <a href="https://github.com/yjg30737/pyqt-svg-button.git">pyqt-svg-button</a>
 
 ## Feature
 * `Drawer(parent, widget: QWidget, orientation)` Constructor.
