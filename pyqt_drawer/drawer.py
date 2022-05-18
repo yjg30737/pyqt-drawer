@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QWidget, QGridLayout, QGraphicsOpacityEffect
-from PyQt5.QtCore import Qt, QPropertyAnimation, QAbstractAnimation
-from pyqt_svg_button import SvgButton
+from PyQt5.QtCore import Qt, QPropertyAnimation, QAbstractAnimation, QParallelAnimationGroup
+from pyqt_svg_icon_pushbutton import SvgIconPushButton
 
 
 class Drawer(QWidget):
@@ -12,7 +12,7 @@ class Drawer(QWidget):
         self.__parent = parent
         self.__parent.installEventFilter(self)
 
-        self.__btn = SvgButton()
+        self.__btn = SvgIconPushButton()
         self.__btn.setCheckable(True)
         self.__btn.toggled.connect(self.__drawerToggled)
         self.__btn.setIcon('ico/drawer.svg')
@@ -47,6 +47,10 @@ class Drawer(QWidget):
         self.__opacityAnimation.setDuration(200)
         self.__opacityAnimation.setEndValue(1.0)
 
+        self.__animationGroup = QParallelAnimationGroup()
+        self.__animationGroup.addAnimation(self.__sizeAnimation)
+        self.__animationGroup.addAnimation(self.__opacityAnimation)
+
         # todo init parent opacity animation
         # self.__parentOpacityAnimation = QPropertyAnimation(self, b"parentopacity")
         # self.__parentOpacityAnimation.valueChanged.connect(self.__setParentOpacity)
@@ -65,17 +69,14 @@ class Drawer(QWidget):
 
     def __drawerToggled(self, f):
         if f:
-            self.__sizeAnimation.setDirection(QAbstractAnimation.Forward)
-            self.__opacityAnimation.setDirection(QAbstractAnimation.Forward)
+            self.__animationGroup.setDirection(QAbstractAnimation.Forward)
             # self.__parentOpacityAnimation.setDirection(QAbstractAnimation.Forward)
             self.__btn.hide()
         else:
-            self.__sizeAnimation.setDirection(QAbstractAnimation.Backward)
-            self.__opacityAnimation.setDirection(QAbstractAnimation.Backward)
+            self.__animationGroup.setDirection(QAbstractAnimation.Backward)
             # self.__parentOpacityAnimation.setDirection(QAbstractAnimation.Backward)
             self.__btn.show()
-        self.__sizeAnimation.start()
-        self.__opacityAnimation.start()
+        self.__animationGroup.start()
         # self.__parentOpacityAnimation.start()
 
     def __setOpacity(self, opacity):
