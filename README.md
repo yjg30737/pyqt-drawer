@@ -63,9 +63,4 @@ if __name__ == "__main__":
 
 Result
 
-https://user-images.githubusercontent.com/55078043/168506952-92ee0b86-270e-4fc1-9ba4-0f7f6402e800.mp4
-
-
-
-
-
+https://user-images.githubusercontent.com/55078043/169175912-bce19b71-2246-46aa-9435-5b108ae72c62.mp4
