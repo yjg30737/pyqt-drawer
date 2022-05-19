@@ -3,7 +3,7 @@ PyQt drawer.
 
 You can set the widget to drawer.
 
-Opening, closing drawer involved animations of size change and opacity
+Opening, closing drawer involved animations of size change and drawer/parent window's opacity.
 
 ## Requirements
 PyQt5 >= 5.8
