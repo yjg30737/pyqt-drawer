@@ -1,6 +1,7 @@
-from PyQt5.QtWidgets import QWidget, QGridLayout, QGraphicsOpacityEffect
+from PyQt5.QtWidgets import QWidget, QGridLayout, QGraphicsOpacityEffect, qApp, QMainWindow
 from PyQt5.QtCore import Qt, QPropertyAnimation, QAbstractAnimation, QParallelAnimationGroup
-from pvqt_svg_button import SvgButton
+from PyQt5.QtGui import QColor, QPalette
+from pyqt_svg_icon_pushbutton import SvgIconPushButton
 
 
 class Drawer(QWidget):
@@ -12,7 +13,7 @@ class Drawer(QWidget):
         self.__parent = parent
         self.__parent.installEventFilter(self)
 
-        self.__btn = SvgButton()
+        self.__btn = SvgIconPushButton()
         self.__btn.setCheckable(True)
         self.__btn.toggled.connect(self.__drawerToggled)
         self.__btn.setIcon('ico/drawer.svg')
@@ -47,18 +48,18 @@ class Drawer(QWidget):
         self.__opacityAnimation.setDuration(200)
         self.__opacityAnimation.setEndValue(1.0)
 
+        self.__parentOpacityAnimation = QPropertyAnimation(self, b"parentopacity")
+        self.__parentOpacityAnimation.valueChanged.connect(self.__setParentOpacity)
+
+        self.__parentOpacityAnimation.setStartValue(255)
+        self.__parentOpacityAnimation.setDuration(200)
+        self.__parentOpacityAnimation.setEndValue(127)
+
         self.__animationGroup = QParallelAnimationGroup()
         self.__animationGroup.addAnimation(self.__sizeAnimation)
         self.__animationGroup.addAnimation(self.__opacityAnimation)
+        self.__animationGroup.addAnimation(self.__parentOpacityAnimation)
         self.__animationGroup.stateChanged.connect(self.__animationStateChanged)
-
-        # todo init parent opacity animation
-        # self.__parentOpacityAnimation = QPropertyAnimation(self, b"parentopacity")
-        # self.__parentOpacityAnimation.valueChanged.connect(self.__setParentOpacity)
-
-        # self.__parentOpacityAnimation.setStartValue(1.0)
-        # self.__parentOpacityAnimation.setDuration(200)
-        # self.__parentOpacityAnimation.setEndValue(0.8)
 
         lay = QGridLayout()
         lay.addWidget(self.__btn, 0, 0, 1, 1, Qt.AlignTop | Qt.AlignLeft)
@@ -71,27 +72,25 @@ class Drawer(QWidget):
     def __drawerToggled(self, f):
         if f:
             self.__animationGroup.setDirection(QAbstractAnimation.Forward)
-            # self.__parentOpacityAnimation.setDirection(QAbstractAnimation.Forward)
             self.__btn.hide()
         else:
             self.__animationGroup.setDirection(QAbstractAnimation.Backward)
-            # self.__parentOpacityAnimation.setDirection(QAbstractAnimation.Backward)
             self.__btn.show()
         self.__animationGroup.start()
-        # self.__parentOpacityAnimation.start()
 
     def __setOpacity(self, opacity):
         opacity_effect = QGraphicsOpacityEffect(opacity=opacity)
         self.__widget.setGraphicsEffect(opacity_effect)
 
-    # def __setParentOpacity(self, opacity):
-    #     opacity_effect = QGraphicsOpacityEffect(opacity=opacity)
-    #     self.__parent.setGraphicsEffect(opacity_effect)
+    def __setParentOpacity(self, opacity):
+        palette = self.__parent.palette()
+        palette.setColor(QPalette.Window, QColor(255, 255, 255, opacity))
+        self.__parent.setPalette(palette)
 
     def setDuration(self, msecs):
         self.__sizeAnimation.setDuration(msecs)
         self.__opacityAnimation.setDuration(msecs)
-        # self.__parentOpacityAnimation.setDuration(msecs)
+        self.__parentOpacityAnimation.setDuration(msecs)
 
     def setEndValue(self, value):
         self.__sizeAnimation.setEndValue(value)
@@ -109,7 +108,6 @@ class Drawer(QWidget):
     def __animationStateChanged(self, new_state, old_state):
         if new_state == 2:
             self.__widget.setAttribute(Qt.WA_TransparentForMouseEvents, True)
+            self.__parentOpacityAnimation.start()
         elif new_state == 0:
             self.__widget.setAttribute(Qt.WA_TransparentForMouseEvents, False)
-
-
